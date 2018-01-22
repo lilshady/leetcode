@@ -1,26 +1,26 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-/**
- * TODO: comment here
- */
 public class ThreeSum {
-	public static List<List<Integer>> threeSum(List<Integer> list, int target) {
-
-		Collections.sort(list);
+	/*
+	 * @param numbers: Give an array numbers of n integer
+	 * @return: Find all unique triplets in the array which gives the sum of zero.
+	 */
+	public static List<List<Integer>> threeSum(int[] numbers) {
+		Arrays.sort(numbers);
 		List<List<Integer>> result = new ArrayList<>();
 
-		for (int i = 0; i < list.size(); i++) {
-			if (i > 0 && list.get(i-1).equals(list.get(i))) {
+		for (int i = 0; i < numbers.length; i++) {
+			if (i > 0 && numbers[i-1] ==numbers[i]) {
 				continue;
 			}
 
 			List<List<Integer>> tempResult = new ArrayList<>();
-			if (find2Sum(list, i+1, target - list.get(i), tempResult)) {
+			if (find2Sum(numbers, i+1, - numbers[i], tempResult)) {
 				for (List<Integer> r : tempResult) {
-					r.add(list.get(i));
+					r.add(0, numbers[i]);
 					result.add(r);
 				}
 			}
@@ -29,25 +29,31 @@ public class ThreeSum {
 		return result;
 	}
 
-	static boolean find2Sum(List<Integer> list, int from, int target, List<List<Integer>> result) {
-		if (from == list.size()) {
+	static boolean find2Sum(int[] list, int from, int target, List<List<Integer>> result) {
+		if (from == list.length) {
 			return false;
 		}
 
 		int start  = from;
-		int end = list.size() - 1;
+		int end = list.length - 1;
 		while (start < end) {
-			if (list.get(start) + list.get(end) < target) {
+			if (list[start] + list[end] < target) {
 				start ++;
-			} else if (list.get(start) + list.get(end) > target) {
+			} else if (list[start] + list[end] > target) {
 				end --;
 			} else {
-				List<Integer> t= new ArrayList<>();
-				t.add(list.get(start));
-				t.add(list.get(end));
+				List<Integer> t= new LinkedList<>();
+				t.add(list[start]);
+				t.add(list[end]);
 				result.add(t);
-				start++;
-				end--;
+				start ++;
+				while (start + 1 < list.length && list[start] == list[start-1]) {
+					start++;
+				}
+				end --;
+				while (end -1 > 0 && list[end] == list[end+1]) {
+					end--;
+				}
 			}
 		}
 
@@ -59,8 +65,7 @@ public class ThreeSum {
 	}
 
 	public static void main(String[] args) {
-
-		List test = Arrays.asList(1,2,-3,4,-3,6,8,-5);
-		System.out.println(threeSum(test, 0));
+		int[] test = {1,0,-1,-1,-1,-1,0,1,1,1};
+		System.out.println(threeSum(test));
 	}
 }
