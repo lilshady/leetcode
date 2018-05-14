@@ -1,5 +1,6 @@
 /**
  * Created by lil_shady on 2018/5/14.
+ * 112. 删除排序链表中的重复元素
  */
 public class DeleteDuplicateLinkList {
 
